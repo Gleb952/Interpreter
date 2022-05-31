@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+	<script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+	
+	<div id="app">
+		<div class="">
+			<h2>Словарь</h2>
+			<p>Запоминай слова легко и быстро!!!<br>для перевода наведи на слово</p>
+			<div class="card" style="width:400px" 
+
+				v-for="(item, index) in current" 
+				v-if="index == count"
+				>
+			
+				<img class="card-img-top" :src="item.IMG" alt="Card image" style="width:100%;">
+				<div class="card-body">
+					<h4 class="card-title" :title="item.RUS">{{ item.ENG }} <i @click="voice" class="fas fa-car btn btn-primary"></i></h4>
+					<h4 class="card-title" :title="item.RUS">{{ item.RUS }} <i @click="voice" class="fas fa-car btn btn-primary"></i></h4>
+					<p class="card-text">transcription: {{ item.TR }}</p>
+					<button @click="next_word" class="btn btn-primary" >Следующие слово</button>
+					<button @click="translation_word" class="btn btn-primary" >Следующие слово</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+/* 		var arr = new Map([
+  ['honest', 'честный', 'честный'],
+  ['exam', 'экзамен', 'честный'],
+  ['to speak', 'подписка', 'честный'],
+  ['subcription', 'говорить', 'честный']
+]);   */
+		const dictionary = [
+			{ ENG: 'apple', RUS: 'яблоко', IMG: 'img/apple.png', TR: '\ˈapəl'},
+			{ ENG: 'lemon', RUS: 'лемон', IMG: 'img/lemon.png', TR: ''},
+			{ ENG: 'orange', RUS: 'апельсин', IMG: 'img/orange.jpg', TR: '' },
+			{ ENG: 'banan', RUS: 'ананас', IMG: 'img/banan.png', TR: '' },
+		];
+
+
+	var app = new Vue({
+	el: '#app',
+		
+		data: {
+			RUS: false,
+			count: 0,
+			current: dictionary,
+		},
+
+		methods: {
+			next_word(){
+				this.count++;
+				if(this.count >= dictionary.length -1){
+					this.count = 0;
+				}
+			},
+			translation_word(){
+				this.count++;
+				if(this.count >= dictionary.length -1){
+					this.count = 0;
+				}
+			},
+			translate() {
+		       
+		    },
+			voice() {
+		       console.log("VOICE");
+		    },
+		},
+	})
+
+
+	</script>
+</body>
+</html>
