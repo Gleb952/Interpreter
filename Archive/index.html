@@ -8,46 +8,42 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<link href="css/style.css" rel="stylesheet" type="text/css">
 	<script src="https://unpkg.com/vue@2"></script>
+	
 </head>
 <body>
 	
 	<div id="app">
 		<div class="">
-			<h2>Словарь</h2>
-			<p>Запоминай слова легко и быстро!!!<br>для перевода наведи на слово</p>
-			<div class="card" style="width:400px" 
-
-				v-for="(item, index) in current" 
-				v-if="index == count"
-				>
-			
-				<img class="card-img-top" :src="item.IMG" alt="Card image" style="width:100%;">
+			<h2>Словарь v.1.01</h2>
+			<p>Запоминай слова легко и быстро!!!<br>для перевода наведи на слово.</p>
+			<div class="card" style="width:400px" v-for="(item, index) in current" v-if="index == count">
+				<img class="card-img-top cardImg" :src="item.IMG" alt="Card image" style="width:100%;">
 				<div class="card-body">
-					<h4 class="card-title" :title="item.RUS">{{ item.ENG }} <i @click="voice" class="fas fa-car btn btn-primary"></i></h4>
-					<h4 class="card-title" :title="item.RUS">{{ item.RUS }} <i @click="voice" class="fas fa-car btn btn-primary"></i></h4>
+					<h4 class="card-title">{{ item.ENG }} <i @click="voice(item.ENG)" class="fas fa-car btn btn-primary"></i></h4>
 					<p class="card-text">transcription: {{ item.TR }}</p>
+					
+					<button @click="translate(index)" id="myBtn" class="btn btn-primary" >Перевод</button>
 					<button @click="next_word" class="btn btn-primary" >Следующие слово</button>
-					<button @click="translation_word" class="btn btn-primary" >Следующие слово</button>
+					
+					<div class="toast">
+						<div class="toast-body" data-placement="top">
+							{{ item.RUS }}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
 	<script>
-/* 		var arr = new Map([
-  ['honest', 'честный', 'честный'],
-  ['exam', 'экзамен', 'честный'],
-  ['to speak', 'подписка', 'честный'],
-  ['subcription', 'говорить', 'честный']
-]);   */
+		
+		
 		const dictionary = [
 			{ ENG: 'apple', RUS: 'яблоко', IMG: 'img/apple.png', TR: '\ˈapəl'},
-			{ ENG: 'lemon', RUS: 'лемон', IMG: 'img/lemon.png', TR: ''},
-			{ ENG: 'orange', RUS: 'апельсин', IMG: 'img/orange.jpg', TR: '' },
-			{ ENG: 'banan', RUS: 'ананас', IMG: 'img/banan.png', TR: '' },
+			{ ENG: 'lemon', RUS: 'лимон', IMG: 'img/lemon.png', TR: 'ˈlemən'},
+			{ ENG: 'orange', RUS: 'апельсин', IMG: 'img/orange.jpg', TR: 'ˈôrənj' },
+			{ ENG: 'banana', RUS: 'банан', IMG: 'img/banan.png', TR: 'bəˈnanə' },
+			{ ENG: 'watermelon', RUS: 'арбуз', IMG: 'img/watermelone.jpeg', TR: 'ˈwôdərˌmelən' },
 		];
-
-
 	var app = new Vue({
 	el: '#app',
 		
@@ -56,30 +52,23 @@
 			count: 0,
 			current: dictionary,
 		},
-
 		methods: {
 			next_word(){
 				this.count++;
-				if(this.count >= dictionary.length -1){
+				if(this.count > dictionary.length -1){
 					this.count = 0;
 				}
 			},
-			translation_word(){
-				this.count++;
-				if(this.count >= dictionary.length -1){
-					this.count = 0;
-				}
-			},
-			translate() {
-		       
-		    },
-			voice() {
-		       console.log("VOICE");
-		    },
+			translate(index) {
+				$('.toast').toast('show');
+		},
+			voice(speak_word) {
+				const utterance = new SpeechSynthesisUtterance(speak_word);
+				utterance.lang = "en-US";
+				speechSynthesis.speak(utterance);
+		},
 		},
 	})
-
-
 	</script>
 </body>
 </html>
